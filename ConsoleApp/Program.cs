@@ -1,0 +1,64 @@
+﻿using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DataExtracts;
+using System.Configuration;
+using System.Data.Odbc;
+using System.Data;
+using System.Xml.Linq;
+using Dropbox.Api;
+using System.IO;
+
+
+namespace ConsoleApp
+{
+	class Program
+	{
+		private static readonly Logger LOGGER = LogManager.GetCurrentClassLogger();
+
+		static void Main(string[] args)
+		{
+
+			try
+			{
+				var extract = new ReservationsExtract();
+				extract.Extract(string.Format(ConfigurationManager.AppSettings["ReservationsFile"], DateTime.Now));
+			}
+			catch (Exception ex)
+			{
+				LOGGER.Error(ex, "Error in Reservation Extract");
+			}
+			try
+			{
+				var extract = new HistoryExtraction();
+				extract.Extract(string.Format(ConfigurationManager.AppSettings["HistReservationFile"], DateTime.Now));
+			}
+			catch (Exception ex)
+			{
+				LOGGER.Error(ex, "Error in History Extract");
+			}
+			try
+			{
+				var extract = new AvailabilityExtract();
+				extract.Extract(string.Format(ConfigurationManager.AppSettings["AvailabilityFile"], DateTime.Now));
+			}
+			catch (Exception ex)
+			{
+				LOGGER.Error(ex, "Error in Availability Extract");
+			}
+			try
+			{
+				var extract = new GroupsExtract();
+				extract.Extract(string.Format(ConfigurationManager.AppSettings["GroupsFile"], DateTime.Now));
+
+			}
+			catch (Exception ex)
+			{
+				LOGGER.Error(ex, "Error in Groups data");
+			}
+		}
+	}
+}
