@@ -21,43 +21,54 @@ namespace ConsoleApp
 
 		static void Main(string[] args)
 		{
+			if (ConfigurationManager.AppSettings["ReservationsFile"] != null)
+			{
+				try
+				{
+					var extract = new ReservationsExtract();
+					extract.Extract(string.Format(ConfigurationManager.AppSettings["ReservationsFile"], DateTime.Now));
+				}
+				catch (Exception ex)
+				{
+					LOGGER.Error(ex, "Error in Reservation Extract");
+				}
+			}
+			if (ConfigurationManager.AppSettings["HistReservationFile"] != null)
+			{
+				try
+				{
+					var extract = new HistoryExtraction();
+					extract.Extract(string.Format(ConfigurationManager.AppSettings["HistReservationFile"], DateTime.Now));
+				}
+				catch (Exception ex)
+				{
+					LOGGER.Error(ex, "Error in History Extract");
+				}
+			}
+			if (ConfigurationManager.AppSettings["AvailabilityFile"] != null)
+			{
+				try
+				{
+					var extract = new AvailabilityExtract();
+					extract.Extract(string.Format(ConfigurationManager.AppSettings["AvailabilityFile"], DateTime.Now));
+				}
+				catch (Exception ex)
+				{
+					LOGGER.Error(ex, "Error in Availability Extract");
+				}
+			}
+			if (ConfigurationManager.AppSettings["GroupsFile"] != null)
+			{
+				try
+				{
+					var extract = new GroupsExtract();
+					extract.Extract(string.Format(ConfigurationManager.AppSettings["GroupsFile"], DateTime.Now));
 
-			try
-			{
-				var extract = new ReservationsExtract();
-				extract.Extract(string.Format(ConfigurationManager.AppSettings["ReservationsFile"], DateTime.Now));
-			}
-			catch (Exception ex)
-			{
-				LOGGER.Error(ex, "Error in Reservation Extract");
-			}
-			try
-			{
-				var extract = new HistoryExtraction();
-				extract.Extract(string.Format(ConfigurationManager.AppSettings["HistReservationFile"], DateTime.Now));
-			}
-			catch (Exception ex)
-			{
-				LOGGER.Error(ex, "Error in History Extract");
-			}
-			try
-			{
-				var extract = new AvailabilityExtract();
-				extract.Extract(string.Format(ConfigurationManager.AppSettings["AvailabilityFile"], DateTime.Now));
-			}
-			catch (Exception ex)
-			{
-				LOGGER.Error(ex, "Error in Availability Extract");
-			}
-			try
-			{
-				var extract = new GroupsExtract();
-				extract.Extract(string.Format(ConfigurationManager.AppSettings["GroupsFile"], DateTime.Now));
-
-			}
-			catch (Exception ex)
-			{
-				LOGGER.Error(ex, "Error in Groups data");
+				}
+				catch (Exception ex)
+				{
+					LOGGER.Error(ex, "Error in Groups data");
+				}
 			}
 		}
 	}
