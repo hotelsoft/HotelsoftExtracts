@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataExtracts
 {
@@ -50,6 +46,14 @@ namespace DataExtracts
 		public static int GetInt16(this DataRow rd, string col)
 		{
 			return Convert.IsDBNull(rd[col]) ? 0 : Convert.ToInt16(rd[col]);
+		}
+		#endregion
+
+		#region Folder Extensions
+		public static void Empty(this System.IO.DirectoryInfo directory)
+		{
+			foreach (System.IO.FileInfo file in directory.GetFiles()) file.Delete();
+			foreach (System.IO.DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
 		}
 		#endregion
 	}

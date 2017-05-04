@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
@@ -94,6 +95,13 @@ namespace HotelsoftExtractsService
 
 		private void SchedularCallback(object e)
 		{
+			string archiveFile = Path.Combine(ConfigurationManager.AppSettings["ArchiveFolder"],
+				$"{DateTime.Now.AddDays(-1).ToString("MMdd")}_001.BAC").ToString();
+			bool isSuccess = BackupExtractor.Extract(archiveFile, ConfigurationManager.AppSettings["DBFolder"]);
+			if (!isSuccess)
+			{
+				return;
+			}
 			try
 			{
 
@@ -132,6 +140,8 @@ namespace HotelsoftExtractsService
 			{
 				LOGGER.Error(ex, "Error in extracting groups data");
 			}
+			DirectoryInfo di = new DirectoryInfo(ConfigurationManager.AppSettings["DBFolder"]);
+			di.Empty();
 			this.ScheduleService();
 		}
 	}

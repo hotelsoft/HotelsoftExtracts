@@ -21,6 +21,13 @@ namespace ConsoleApp
 
 		static void Main(string[] args)
 		{
+			string archiveFile = Path.Combine(ConfigurationManager.AppSettings["ArchiveFolder"],
+				$"{DateTime.Now.AddDays(-1).ToString("MMdd")}_001.BAC").ToString();
+			bool isSuccess = BackupExtractor.Extract(archiveFile, ConfigurationManager.AppSettings["DBFolder"]);
+			if (!isSuccess)
+			{
+				return;
+			}
 			if (ConfigurationManager.AppSettings["ReservationsFile"] != null)
 			{
 				try
@@ -70,6 +77,8 @@ namespace ConsoleApp
 					LOGGER.Error(ex, "Error in Groups data");
 				}
 			}
+			DirectoryInfo di = new DirectoryInfo(ConfigurationManager.AppSettings["DBFolder"]);
+			di.Empty();
 		}
 	}
 }
