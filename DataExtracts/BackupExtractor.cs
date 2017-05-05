@@ -19,7 +19,7 @@ namespace DataExtracts
 			}
 			logger.Debug("Emptying folder {0}", di.FullName);
 			di.Empty();
-			logger.Debug("Extracting {0} to {1}", srcfile, destFolder);
+			logger.Info("Extracting {0} to {1}", srcfile, destFolder);
 			try { ZipFile.ExtractToDirectory(srcfile, destFolder); }
 			catch (Exception e) {
 				logger.Error(e, "Error in extraction zip file");
