@@ -39,6 +39,7 @@ namespace DataExtracts
 			AdsDataReader rd = AdsHelper.ExecuteReader(connectionString, CommandType.Text, query);
 			DataTable allotdt = new DataTable();
 			allotdt.Load(rd);
+			rd.Close();
 
 			var group = from allot in allotdt.AsEnumerable()
 						group allot by allot.Field<string>("ALTDESC") into grp

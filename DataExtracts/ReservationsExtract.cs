@@ -101,6 +101,7 @@ namespace DataExtracts
 					csv.WriteRecord(record);
 					counter++;
 				}
+				rd.Close();
 				#endregion
 				LOGGER.Info("Wrote {0} records", counter);
 			}
