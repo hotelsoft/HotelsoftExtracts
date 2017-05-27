@@ -27,5 +27,19 @@ namespace DataExtracts
 			}
 			return true;
 		}
+
+		public static string GetBackupFile(string archiveFolder)
+		{
+			for (var i =0; i<10; i++)
+			{
+				string archiveFile = Path.Combine(archiveFolder,
+					$"{DateTime.Now.AddDays(-1).ToString("MMdd")}_00{i}.BAC").ToString();
+				if (File.Exists(archiveFile) && new FileInfo(archiveFile).Length > 1024)
+				{
+					return archiveFile;
+				}
+			}
+			return string.Empty;
+		}
 	}
 }

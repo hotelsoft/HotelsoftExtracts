@@ -21,8 +21,7 @@ namespace ConsoleApp
 
 		static void Main(string[] args)
 		{
-			string archiveFile = Path.Combine(ConfigurationManager.AppSettings["ArchiveFolder"],
-				$"{DateTime.Now.AddDays(-1).ToString("MMdd")}_001.BAC").ToString();
+			string archiveFile = BackupExtractor.GetBackupFile(ConfigurationManager.AppSettings["ArchiveFolder"]);
 			bool isSuccess = BackupExtractor.Extract(archiveFile, ConfigurationManager.AppSettings["DBFolder"]);
 			if (!isSuccess)
 			{
