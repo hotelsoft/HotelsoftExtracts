@@ -18,8 +18,9 @@ namespace DataExtracts
 	{
 		private static readonly Logger LOGGER = LogManager.GetCurrentClassLogger();
 		readonly string connectionString = ConfigurationManager.ConnectionStrings["db"].ConnectionString;
+		static readonly int twoyrsago = DateTime.Now.AddYears(-2).Year;
 
-		static readonly string query = @"SELECT CURRENT_DATE() AS EXTRACTDATE, G.REGISTER AS RESERVATIONID, G.AM AS CREATIONDT, G.AN  AS CHECKIN, 
+		static readonly string query = $@"SELECT CURRENT_DATE() AS EXTRACTDATE, G.REGISTER AS RESERVATIONID, G.AM AS CREATIONDT, G.AN  AS CHECKIN, 
 			G.AB  AS CHECKOUT, G.ERW AS ADULTS, G.KIN AS CHILD, 1 AS NIGHTS, G.ZIMMER AS ROOMNUMBER, G.KAT AS ROOMTYPE, G.ALOTM AS BLOCKID,
 			G.MARKET AS MARKETCD, M.TEXT AS MARKETNAME, G.SCODE AS SOURCECD, S.TEXT AS SOURCENAME, G.COMPANY AS COMPANY, G.RT7 AS COMPANYNAME,
 			G.TRAVEL AS TRAVELID, G.RT4 AS TRAVELNAME, G.GASTNR AS GUESTID, G.PREIS AS RATES, T.ANREDE AS PREFIX, T.NAME AS LASTNAME, T.VORNAME AS FIRSTNAME,
@@ -29,7 +30,7 @@ namespace DataExtracts
 			INNER JOIN MARKETS M ON M.MARKET = G.MARKET 
 			INNER JOIN GAESTEST T ON T.NUMMER = G.GASTNR
 			INNER JOIN SOURCES S ON S.SCODE = G.SCODE 
-		WHERE YEAR(G.AN) >= 2013 and G.PAID = ''  AND G.KAT NOT IN ('PM', 'PF', 'PX') ";
+		WHERE YEAR(G.AB) >= {twoyrsago} and G.PAID = ''  AND G.KAT NOT IN ('PM', 'PF', 'PX') ";
 
 		public void Extract(string fileName)
 		{
