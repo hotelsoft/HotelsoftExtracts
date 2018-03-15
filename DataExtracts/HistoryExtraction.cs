@@ -94,9 +94,8 @@ namespace DataExtracts
 					record.Nights = (record.Checkout - record.Checkin).Days;
 
 					var rates = Enumerable.Range(1, record.Nights).Select(night => new XElement("Rate",
-						new XAttribute("TRANADATE", record.Checkin.ToString("yyyy-MM-dd")),
-						new XAttribute("DISPLAYDATE", record.Checkin.ToString("yyyy-MM-dd")),
-						new XAttribute("TRANDATE", record.Checkin.ToString("yyyy-MM-dd")),
+						new XAttribute("TRANADATE", record.Checkin.AddDays(night-1).ToString("yyyy-MM-dd")),
+						new XAttribute("DISPLAYDATE", record.Checkin.AddDays(night-1).ToString("yyyy-MM-dd")),
 						new XAttribute("ROOMREVENUEINC", rd.GetDouble("RATES")),
 						new XAttribute("ROOMREVENUE", rd.GetDouble("RATES"))));
 					record.Rates = new XElement("Rates", rates).ToString();
